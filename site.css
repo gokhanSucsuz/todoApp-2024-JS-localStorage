@@ -1,0 +1,7 @@
+.filtered {
+    display: none !important;
+}
+
+a {
+    float: end
+}
