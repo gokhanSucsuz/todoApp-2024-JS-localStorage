@@ -139,34 +139,38 @@ function deleteUpdateItem(e) {
 	badge.textContent = tasks.length;
 }
 function updateValue() {
-	liArray.forEach((item, index) => {
+	// liArray.forEach((item, index) => {
+	// 	if (index == updateIndex) {
+	// 		item.textContent = txtInput.value.trim();
+	// 		const div = document.createElement("div");
+	// 		div.classList = "d-flex px-2";
+	// 		const checkedDiv = document.createElement("div");
+	// 		checkedDiv.classList = "form-check form-switch";
+	// 		const checkedInput = document.createElement("input");
+	// 		checkedInput.classList = "form-check-input";
+	// 		checkedInput.setAttribute("type", "checkbox");
+
+	// 		checkedInput.setAttribute("id", "flexSwitchCheck");
+
+	// 		checkedDiv.appendChild(checkedInput);
+	// 		const a = document.createElement("a");
+	// 		a.classList = "float-end";
+	// 		a.setAttribute("href", "#");
+	// 		a.innerHTML =
+	// 			"<i class='bi bi-pencil-square fs-5 text-warning px-2'></i><i class='bi bi-x-circle fs-5 text-danger px-2'></i>";
+	// 		div.appendChild(a);
+	// 		div.appendChild(checkedDiv);
+
+	// 		item.appendChild(div);
+	tasks.forEach((task, index) => {
 		if (index == updateIndex) {
-			item.textContent = txtInput.value.trim();
-			const div = document.createElement("div");
-			div.classList = "d-flex px-2";
-			const checkedDiv = document.createElement("div");
-			checkedDiv.classList = "form-check form-switch";
-			const checkedInput = document.createElement("input");
-			checkedInput.classList = "form-check-input";
-			checkedInput.setAttribute("type", "checkbox");
-
-			checkedInput.setAttribute("id", "flexSwitchCheck");
-
-			checkedDiv.appendChild(checkedInput);
-			const a = document.createElement("a");
-			a.classList = "float-end";
-			a.setAttribute("href", "#");
-			a.innerHTML =
-				"<i class='bi bi-pencil-square fs-5 text-warning px-2'></i><i class='bi bi-x-circle fs-5 text-danger px-2'></i>";
-			div.appendChild(a);
-			div.appendChild(checkedDiv);
-
-			item.appendChild(div);
-
-			tasks[index] = item.textContent.trim();
-			localStorage.setItem("tasks", JSON.stringify(tasks));
+			task[0] = item.textContent.trim();
 		}
 	});
+
+	localStorage.setItem("tasks", JSON.stringify(tasks));
+	// 	}
+	// });
 
 	modeUpdate = false;
 	txtInput.value = "";
