@@ -28,9 +28,12 @@ function loadTasks() {
 	tasks = localStorage.getItem("tasks")
 		? JSON.parse(localStorage.getItem("tasks"))
 		: [];
+	badge.textContent = tasks.length;
 	tasks
 		? tasks.forEach((task) => {
 				createElement(task[0], task[1]);
+
+				badge.textContent = tasks.length;
 		  })
 		: [];
 }
@@ -102,13 +105,16 @@ function createElement(task, task2) {
 				"text-decoration-line-through"
 		  );
 	taskList.appendChild(li);
+	badge.textContent = tasks.length;
 	return li.textContent.trim();
 }
 function deleteAll() {
 	const taskCount = tasks.length;
-	if (taskCount != 0 && confirm("Are you sure?")) taskList.innerHTML = "";
-	localStorage.clear();
-	badge.textContent = tasks.length;
+	if (taskCount != 0 && confirm("Are you sure?")) {
+		taskList.innerHTML = "";
+		localStorage.clear();
+		badge.textContent = tasks.length;
+	}
 }
 function deleteUpdateItem(e) {
 	if (e.target.className === "bi bi-x-circle fs-5 text-danger px-2 me-2") {
@@ -157,14 +163,12 @@ function updateValue() {
 	btnUpdateHide();
 }
 function checkInput(e) {
-	console.log(e.target.parentElement.parentElement.parentElement.textContent);
 	tasks.forEach((task) => {
 		if (
 			e.target.parentElement.parentElement.parentElement.textContent == task[0]
 		)
 			if (e.target.checked) {
 				task[1] = true;
-				console.log("true çalışıyor");
 				e.target.parentElement.parentElement.parentElement.classList.add(
 					"bg-success",
 					"text-light",
@@ -172,7 +176,6 @@ function checkInput(e) {
 				);
 			} else {
 				task[1] = false;
-				console.log("false çalışıyor");
 				e.target.parentElement.parentElement.parentElement.classList.remove(
 					"bg-success",
 					"text-light",
