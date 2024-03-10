@@ -85,7 +85,7 @@ function createElement(task) {
 	a.classList = "float-end";
 	a.setAttribute("href", "#");
 	a.innerHTML =
-		"<i class='bi bi-pencil-square fs-5 text-warning px-2'></i><i class='bi bi-x-circle fs-5 text-danger px-2'></i>";
+		"<i class='bi bi-pencil-square fs-5 text-warning px-2'></i><i class='bi bi-x-circle fs-5 text-danger px-2 me-2'></i>";
 	div.appendChild(a);
 	div.appendChild(checkedDiv);
 	li.appendChild(div);
