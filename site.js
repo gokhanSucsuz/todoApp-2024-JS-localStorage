@@ -16,6 +16,7 @@ let modeUpdate = false;
 let liCollection = [];
 let liArray = [];
 let tasks = [];
+let elements = [];
 const objTasks = {};
 
 let index = 1;
@@ -39,6 +40,7 @@ function eventListeners() {
 	taskList.addEventListener("click", deleteUpdateItem);
 	btnUpdateTask.addEventListener("click", updateValue);
 	search.addEventListener("keyup", filterElement);
+	taskList.addEventListener("change", checkInput);
 }
 function addNewTask(e) {
 	e.preventDefault();
@@ -52,20 +54,23 @@ function addNewTask(e) {
 	if (modeUpdate) {
 		updateValue();
 	} else {
-		tasks.push(createElement(txtInput.value.trim()));
+		elements.push(createElement(txtInput.value.trim()));
+		elements.push(false);
+		tasks.push(elements);
 		localStorage.setItem("tasks", JSON.stringify(tasks));
 		txtInput.value = "";
+		elements = [];
 		index++;
 		badge.textContent = tasks.length;
 	}
 }
-function createElement(text) {
+function createElement(task) {
 	const li = document.createElement("li");
 	li.classList =
 		index % 2 == 1
 			? "list-group-item fs-5 d-flex justify-content-between"
 			: "list-group-item list-group-item-dark fs-5 d-flex justify-content-between";
-	li.appendChild(document.createTextNode(text));
+	li.appendChild(document.createTextNode(task[0]));
 	const div = document.createElement("div");
 	div.classList = "d-flex px-2";
 	const checkedDiv = document.createElement("div");
@@ -74,6 +79,7 @@ function createElement(text) {
 	checkedInput.classList = "form-check-input";
 	checkedInput.setAttribute("type", "checkbox");
 	checkedInput.setAttribute("id", "flexSwitchCheck");
+	task[1] == true && checkedInput.setAttribute("checked", "checked");
 	checkedDiv.appendChild(checkedInput);
 	const a = document.createElement("a");
 	a.classList = "float-end";
@@ -83,6 +89,7 @@ function createElement(text) {
 	div.appendChild(a);
 	div.appendChild(checkedDiv);
 	li.appendChild(div);
+	task[1] == true && li.classList.add("bg-success");
 	taskList.appendChild(li);
 	return li.textContent.trim();
 }
@@ -119,6 +126,13 @@ function deleteUpdateItem(e) {
 				updateIndex = index;
 		});
 	} else if (e.target.className === "form-check-input") {
+		tasks.forEach((item, index) => {
+			if (
+				item ===
+				e.target.parentElement.parentElement.parentElement.textContent.trim()
+			)
+				task[1] == true && checkedInput.setAttribute("checked", "checked");
+		});
 	}
 	liCollection = document.querySelectorAll("li");
 	liArray = Array.from(liCollection);
@@ -157,6 +171,35 @@ function updateValue() {
 	modeUpdate = false;
 	txtInput.value = "";
 	btnUpdateHide();
+}
+function checkInput(e) {
+	console.log(e.target.parentElement.parentElement.parentElement.textContent);
+	tasks.forEach((task) => {
+		if (
+			e.target.parentElement.parentElement.parentElement.textContent == task[0]
+		)
+			if (e.target.checked) {
+				task[1] = true;
+				e.target.parentElement.parentElement.parentElement.classList.add(
+					"bg-success",
+					"text-light",
+					"text-decoration-line-through"
+				);
+			} else {
+				task[1] = false;
+				e.target.parentElement.parentElement.parentElement.classList.remove(
+					"bg-success",
+					"text-light",
+					"text-decoration-line-through"
+				);
+			}
+
+		task[1] == true &&
+			e.target.parentElement.parentElement.parentElement.classList.add(
+				"bg-success"
+			);
+	});
+	localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 function btnUpdateHide() {
 	btnAddNewTask.classList.remove("d-none");
